@@ -7,9 +7,7 @@ import (
 func Info(err error, text string, vars ...any) {
 	logErr(err)
 	res := readTextVars(text)
-	if len(res) != len(vars) {
-		fmt.Println(FATAL_COLOR + "ATTENTION: Vars in string differ from provided vars" + RESET)
-	}
+	resErr(res, vars)
 
 	text = createTextOutput(text, res, vars)
 
@@ -19,9 +17,7 @@ func Info(err error, text string, vars ...any) {
 func Debug(err error, text string, vars ...any) {
 	logErr(err)
 	res := readTextVars(text)
-	if len(res) != len(vars) {
-		fmt.Println(FATAL_COLOR + "ATTENTION: Vars in string differ from provided vars" + RESET)
-	}
+	resErr(res, vars)
 
 	text = createTextOutput(text, res, vars)
 
@@ -31,5 +27,11 @@ func Debug(err error, text string, vars ...any) {
 func logErr(err error) {
 	if err != nil {
 		fmt.Println(err)
+	}
+}
+
+func resErr(res []VarInfo, vars []any) {
+	if len(res) != len(vars) {
+		fmt.Println(FATAL_COLOR + "ATTENTION: Vars in string differ from provided vars" + RESET)
 	}
 }

@@ -10,7 +10,7 @@ func Info(err error, text string, vars ...any) {
 	}
 	res := readTextVars(text)
 	if len(res) != len(vars) {
-		fmt.Println("ATTENTION: Vars in string differ from provided vars")
+		fmt.Println(FATAL_COLOR+"ATTENTION: Vars in string differ from provided vars"+RESET)
 	}
 
 	text = createTextOutput(text, res, vars)

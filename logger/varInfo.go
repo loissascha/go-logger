@@ -2,13 +2,13 @@ package logger
 
 import "fmt"
 
-type VarInfo struct {
+type varInfo struct {
 	Name       string
 	StartIndex int
 	StopIndex  int
 }
 
-func createTextOutput(text string, varInfo []VarInfo, vars []any) string {
+func createTextOutput(text string, varInfo []varInfo, vars []any) string {
 	for i := len(varInfo) - 1; i >= 0; i-- {
 		v := varInfo[i]
 		before := text[0:v.StartIndex]
@@ -18,17 +18,17 @@ func createTextOutput(text string, varInfo []VarInfo, vars []any) string {
 	return text
 }
 
-func readTextVars(text string) []VarInfo {
+func readTextVars(text string) []varInfo {
 	readVar := false
 	currentVar := ""
 	currentVarStartIndex := 0
-	vars := []VarInfo{}
+	vars := []varInfo{}
 	for i, v := range text {
 		char := string(v)
 
 		if char == "}" {
 			readVar = false
-			vars = append(vars, VarInfo{
+			vars = append(vars, varInfo{
 				Name:       currentVar,
 				StartIndex: currentVarStartIndex,
 				StopIndex:  i,

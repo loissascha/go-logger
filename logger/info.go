@@ -11,7 +11,7 @@ func Info(err error, text string, vars ...any) {
 
 	text = createTextOutput(text, res, vars)
 
-	fmt.Println(INFO_COLOR+"INFO:", text+RESET)
+	fmt.Println(color_info+"INFO:", text+color_reset)
 }
 
 func Debug(err error, text string, vars ...any) {
@@ -21,7 +21,37 @@ func Debug(err error, text string, vars ...any) {
 
 	text = createTextOutput(text, res, vars)
 
-	fmt.Println(DEBUG_COLOR+"DEBUG:", text+RESET)
+	fmt.Println(color_debug+"DEBUG:", text+color_reset)
+}
+
+func Warning(err error, text string, vars ...any) {
+	logErr(err)
+	res := readTextVars(text)
+	resErr(res, vars)
+
+	text = createTextOutput(text, res, vars)
+
+	fmt.Println(color_warning+"WARNING:", text+color_reset)
+}
+
+func Error(err error, text string, vars ...any) {
+	logErr(err)
+	res := readTextVars(text)
+	resErr(res, vars)
+
+	text = createTextOutput(text, res, vars)
+
+	fmt.Println(color_error+"ERROR:", text+color_reset)
+}
+
+func Fatal(err error, text string, vars ...any) {
+	logErr(err)
+	res := readTextVars(text)
+	resErr(res, vars)
+
+	text = createTextOutput(text, res, vars)
+
+	fmt.Println(color_fatal+"FATAL:", text+color_reset)
 }
 
 func logErr(err error) {
@@ -30,8 +60,8 @@ func logErr(err error) {
 	}
 }
 
-func resErr(res []VarInfo, vars []any) {
+func resErr(res []varInfo, vars []any) {
 	if len(res) != len(vars) {
-		fmt.Println(FATAL_COLOR + "ATTENTION: Vars in string differ from provided vars" + RESET)
+		fmt.Println(color_fatal + "ATTENTION: Vars in string differ from provided vars" + color_reset)
 	}
 }

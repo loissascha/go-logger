@@ -10,6 +10,11 @@ type VarInfo struct {
 	StopIndex  int
 }
 
+const (
+	INFO_COLOR = "\033[34m"
+	RESET = "\033[0m"
+)
+
 func Info(err error, text string, vars ...any) {
 	if err != nil {
 		fmt.Println(err)
@@ -21,7 +26,7 @@ func Info(err error, text string, vars ...any) {
 
 	text = createTextOutput(text, res, vars)
 
-	fmt.Println(text)
+	fmt.Println(INFO_COLOR + "INFO:", text + RESET)
 }
 
 func createTextOutput(text string, varInfo []VarInfo, vars []any) string {

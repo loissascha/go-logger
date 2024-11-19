@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	logger.Config.ShowDebug(false)
+	// logger.Config.ShowDebug(false)
 
 	fmt.Println("Started...")
 	timestamp := time.Now().UnixMilli()

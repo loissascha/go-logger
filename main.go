@@ -12,4 +12,5 @@ func main() {
 	timestamp := time.Now().UnixMilli()
 	logger.Info(nil, "Some logging text with {timestamp} and {username}", timestamp, "lois")
 	fmt.Println("after info")
+	logger.Debug(nil, "This is a debug message sent from {script}", "main")
 }

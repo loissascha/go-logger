@@ -8,6 +8,8 @@ import (
 )
 
 func main() {
+	logger.Config.ShowDebug(false)
+
 	fmt.Println("Started...")
 	timestamp := time.Now().UnixMilli()
 	logger.Info(nil, "Some logging text with {timestamp} and {username}", timestamp, "lois")

@@ -1,5 +1,10 @@
 package logger
 
+import (
+	"fmt"
+	"os"
+)
+
 type config struct {
 	showInfo    bool
 	showDebug   bool
@@ -34,4 +39,22 @@ func (c *config) ShowError(show bool) {
 
 func (c *config) ShowFatal(show bool) {
 	c.showFatal = show
+}
+
+func (c *config) AddFileLogging(path string) {
+	isDir, err := isDirectory(path)
+	if err != nil || !isDir {
+		Error(err, "AddFileLogging failed. Path {path} is not a directory.", path)
+	}
+}
+
+func isDirectory(path string) (bool, error) {
+	info, err := os.Stat(path)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return false, fmt.Errorf("path does not exist")
+		}
+		return false, err
+	}
+	return info.IsDir(), nil
 }

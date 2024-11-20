@@ -10,6 +10,8 @@ import (
 func main() {
 	// logger.Config.ShowDebug(false)
 
+	logger.Config.AddFileLogging("/home/sascha/logs")
+
 	fmt.Println("Started...")
 	timestamp := time.Now().UnixMilli()
 	logger.Info(nil, "Some logging info text at time {timestamp} by user {username}", timestamp, "lois")

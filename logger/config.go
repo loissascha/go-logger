@@ -6,19 +6,21 @@ import (
 )
 
 type config struct {
-	showInfo    bool
-	showDebug   bool
-	showWarning bool
-	showError   bool
-	showFatal   bool
+	showInfo            bool
+	showDebug           bool
+	showWarning         bool
+	showError           bool
+	showFatal           bool
+	printDatesInConsole bool
 }
 
 var Config config = config{
-	showInfo:    true,
-	showDebug:   true,
-	showWarning: true,
-	showError:   true,
-	showFatal:   true,
+	showInfo:            true,
+	showDebug:           true,
+	showWarning:         true,
+	showError:           true,
+	showFatal:           true,
+	printDatesInConsole: true,
 }
 
 func (c *config) ShowInfo(show bool) {
@@ -39,6 +41,10 @@ func (c *config) ShowError(show bool) {
 
 func (c *config) ShowFatal(show bool) {
 	c.showFatal = show
+}
+
+func (c *config) PrintDates(show bool) {
+	c.printDatesInConsole = show
 }
 
 func (c *config) AddFileLogging(path string) {

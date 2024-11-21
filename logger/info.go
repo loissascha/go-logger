@@ -2,6 +2,7 @@ package logger
 
 import (
 	"fmt"
+	"time"
 )
 
 func Info(err error, text string, vars ...any) {
@@ -11,7 +12,13 @@ func Info(err error, text string, vars ...any) {
 	text = createTextOutput(text, res, vars)
 
 	if Config.showInfo {
-		fmt.Println(color_info+"INFO:", text+color_reset)
+		ts := ""
+		if Config.printDatesInConsole {
+			t := time.Now()
+			tf := t.Format("06-01-02 15:04:05")
+			ts = fmt.Sprintf("[%v] ", tf)
+		}
+		fmt.Println(color_info+ts+"INFO:", text+color_reset)
 	}
 }
 
@@ -22,7 +29,13 @@ func Debug(err error, text string, vars ...any) {
 	text = createTextOutput(text, res, vars)
 
 	if Config.showDebug {
-		fmt.Println(color_debug+"DEBUG:", text+color_reset)
+		ts := ""
+		if Config.printDatesInConsole {
+			t := time.Now()
+			tf := t.Format("06-01-02 15:04:05")
+			ts = fmt.Sprintf("[%v] ", tf)
+		}
+		fmt.Println(color_debug+ts+"DEBUG:", text+color_reset)
 	}
 }
 
@@ -33,7 +46,13 @@ func Warning(err error, text string, vars ...any) {
 	text = createTextOutput(text, res, vars)
 
 	if Config.showWarning {
-		fmt.Println(color_warning+"WARNING:", text+color_reset)
+		ts := ""
+		if Config.printDatesInConsole {
+			t := time.Now()
+			tf := t.Format("06-01-02 15:04:05")
+			ts = fmt.Sprintf("[%v] ", tf)
+		}
+		fmt.Println(color_warning+ts+"WARNING:", text+color_reset)
 	}
 }
 
@@ -44,7 +63,13 @@ func Error(err error, text string, vars ...any) {
 	text = createTextOutput(text, res, vars)
 
 	if Config.showError {
-		fmt.Println(color_error+"ERROR:", text+color_reset)
+		ts := ""
+		if Config.printDatesInConsole {
+			t := time.Now()
+			tf := t.Format("06-01-02 15:04:05")
+			ts = fmt.Sprintf("[%v] ", tf)
+		}
+		fmt.Println(color_error+ts+"ERROR:", text+color_reset)
 	}
 }
 
@@ -55,7 +80,13 @@ func Fatal(err error, text string, vars ...any) {
 	text = createTextOutput(text, res, vars)
 
 	if Config.showFatal {
-		fmt.Println(color_fatal+"FATAL:", text+color_reset)
+		ts := ""
+		if Config.printDatesInConsole {
+			t := time.Now()
+			tf := t.Format("06-01-02 15:04:05")
+			ts = fmt.Sprintf("[%v] ", tf)
+		}
+		fmt.Println(color_fatal+ts+"FATAL:", text+color_reset)
 	}
 }
 

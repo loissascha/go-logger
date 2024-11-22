@@ -2,24 +2,63 @@ package logger
 
 import (
 	"fmt"
+	"os"
+	"strings"
 	"time"
 )
+
+type LoggingType int
+
+const (
+	LOG_INFO LoggingType = iota
+	LOG_DEBUG
+	LOG_WARNING
+	LOG_ERROR
+	LOG_FATAL
+)
+
+func getTimeString() string {
+	ts := ""
+	if Config.printDatesInConsole {
+		t := time.Now()
+		tf := t.Format("06-01-02 15:04:05")
+		ts = fmt.Sprintf("[%v] ", tf)
+	}
+	return ts
+}
+
+func logToLogFiles(lt LoggingType, text string) {
+	for _, v := range Config.logPaths {
+		file := strings.TrimSuffix(v, "/")
+		file += "/all.log"
+
+		f, err := os.OpenFile(file, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		if err != nil {
+			fmt.Println("Can't write file", file)
+			continue
+		}
+		defer f.Close()
+
+		_, err = f.WriteString(text)
+		if err != nil {
+			fmt.Println("Error writing to file:", err)
+			continue
+		}
+	}
+}
 
 func Info(err error, text string, vars ...any) {
 	logErr(err)
 	res := readTextVars(text)
 	resErr(res, vars)
 	text = createTextOutput(text, res, vars)
+	ts := getTimeString()
 
 	if Config.showInfo {
-		ts := ""
-		if Config.printDatesInConsole {
-			t := time.Now()
-			tf := t.Format("06-01-02 15:04:05")
-			ts = fmt.Sprintf("[%v] ", tf)
-		}
 		fmt.Println(color_info+ts+"INFO:", text+color_reset)
 	}
+
+	logToLogFiles(LOG_INFO, ts+"INFO: "+text+"\n")
 }
 
 func Debug(err error, text string, vars ...any) {
@@ -27,16 +66,13 @@ func Debug(err error, text string, vars ...any) {
 	res := readTextVars(text)
 	resErr(res, vars)
 	text = createTextOutput(text, res, vars)
+	ts := getTimeString()
 
 	if Config.showDebug {
-		ts := ""
-		if Config.printDatesInConsole {
-			t := time.Now()
-			tf := t.Format("06-01-02 15:04:05")
-			ts = fmt.Sprintf("[%v] ", tf)
-		}
 		fmt.Println(color_debug+ts+"DEBUG:", text+color_reset)
 	}
+
+	logToLogFiles(LOG_DEBUG, ts+"DEBUG: "+text+"\n")
 }
 
 func Warning(err error, text string, vars ...any) {
@@ -44,16 +80,13 @@ func Warning(err error, text string, vars ...any) {
 	res := readTextVars(text)
 	resErr(res, vars)
 	text = createTextOutput(text, res, vars)
+	ts := getTimeString()
 
 	if Config.showWarning {
-		ts := ""
-		if Config.printDatesInConsole {
-			t := time.Now()
-			tf := t.Format("06-01-02 15:04:05")
-			ts = fmt.Sprintf("[%v] ", tf)
-		}
 		fmt.Println(color_warning+ts+"WARNING:", text+color_reset)
 	}
+
+	logToLogFiles(LOG_WARNING, ts+"WARNING: "+text+"\n")
 }
 
 func Error(err error, text string, vars ...any) {
@@ -61,16 +94,13 @@ func Error(err error, text string, vars ...any) {
 	res := readTextVars(text)
 	resErr(res, vars)
 	text = createTextOutput(text, res, vars)
+	ts := getTimeString()
 
 	if Config.showError {
-		ts := ""
-		if Config.printDatesInConsole {
-			t := time.Now()
-			tf := t.Format("06-01-02 15:04:05")
-			ts = fmt.Sprintf("[%v] ", tf)
-		}
 		fmt.Println(color_error+ts+"ERROR:", text+color_reset)
 	}
+
+	logToLogFiles(LOG_ERROR, ts+"ERROR: "+text+"\n")
 }
 
 func Fatal(err error, text string, vars ...any) {
@@ -78,16 +108,13 @@ func Fatal(err error, text string, vars ...any) {
 	res := readTextVars(text)
 	resErr(res, vars)
 	text = createTextOutput(text, res, vars)
+	ts := getTimeString()
 
 	if Config.showFatal {
-		ts := ""
-		if Config.printDatesInConsole {
-			t := time.Now()
-			tf := t.Format("06-01-02 15:04:05")
-			ts = fmt.Sprintf("[%v] ", tf)
-		}
 		fmt.Println(color_fatal+ts+"FATAL:", text+color_reset)
 	}
+
+	logToLogFiles(LOG_FATAL, ts+"FATAL: "+text+"\n")
 }
 
 func logErr(err error) {

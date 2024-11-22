@@ -12,6 +12,7 @@ type config struct {
 	showError           bool
 	showFatal           bool
 	printDatesInConsole bool
+	logPaths            []string
 }
 
 var Config config = config{
@@ -21,6 +22,7 @@ var Config config = config{
 	showError:           true,
 	showFatal:           true,
 	printDatesInConsole: true,
+	logPaths:            []string{},
 }
 
 func (c *config) ShowInfo(show bool) {
@@ -51,7 +53,9 @@ func (c *config) AddFileLogging(path string) {
 	isDir, err := isDirectory(path)
 	if err != nil || !isDir {
 		Error(err, "AddFileLogging failed. Path {path} is not a directory.", path)
+		return
 	}
+	c.logPaths = append(c.logPaths, path)
 }
 
 func isDirectory(path string) (bool, error) {

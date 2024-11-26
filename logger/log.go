@@ -28,14 +28,41 @@ func getTimeString() string {
 }
 
 func fileLogger(lt LoggingType, text string) {
+	switch lt {
+	case LOG_INFO:
+		if !Config.fileLogInfo {
+			return
+		}
+		break
+	case LOG_DEBUG:
+		if !Config.fileLogDebug {
+			return
+		}
+		break
+	case LOG_WARNING:
+		if !Config.fileLogWarning {
+			return
+		}
+		break
+	case LOG_ERROR:
+		if !Config.fileLogError {
+			return
+		}
+		break
+	case LOG_FATAL:
+		if !Config.fileLogFatal {
+			return
+		}
+		break
+	}
 	if Config.fileLoggingAsync {
-		go logToFiles(lt, text)
+		go logToFiles(text)
 	} else {
-		logToFiles(lt, text)
+		logToFiles(text)
 	}
 }
 
-func logToFiles(lt LoggingType, text string) {
+func logToFiles(text string) {
 	for _, v := range Config.logPaths {
 		filePath := strings.TrimSuffix(v, "/")
 		filePath += "/all.log"

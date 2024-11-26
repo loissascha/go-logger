@@ -11,6 +11,11 @@ type config struct {
 	showWarning         bool
 	showError           bool
 	showFatal           bool
+	fileLogInfo         bool
+	fileLogDebug        bool
+	fileLogWarning      bool
+	fileLogError        bool
+	fileLogFatal        bool
 	printDatesInConsole bool
 	logPaths            []string
 	fileLoggingAsync    bool
@@ -22,9 +27,34 @@ var Config config = config{
 	showWarning:         true,
 	showError:           true,
 	showFatal:           true,
+	fileLogInfo:         true,
+	fileLogDebug:        false,
+	fileLogWarning:      true,
+	fileLogError:        true,
+	fileLogFatal:        true,
 	printDatesInConsole: true,
 	logPaths:            []string{},
 	fileLoggingAsync:    true,
+}
+
+func (c *config) FileLogInfo(log bool) {
+	c.fileLogInfo = log
+}
+
+func (c *config) FileLogDebug(log bool) {
+	c.fileLogDebug = log
+}
+
+func (c *config) FileLogWarning(log bool) {
+	c.fileLogWarning = log
+}
+
+func (c *config) FileLogError(log bool) {
+	c.fileLogError = log
+}
+
+func (c *config) FileLogFatal(log bool) {
+	c.fileLogFatal = log
 }
 
 func (c *config) ShowInfo(show bool) {

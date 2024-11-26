@@ -48,7 +48,7 @@ func logToLogFiles(lt LoggingType, text string) {
 }
 
 func Info(err error, text string, vars ...any) {
-	logErr(err)
+	logErr(LOG_INFO, err)
 	res := readTextVars(text)
 	resErr(res, vars)
 	text = createTextOutput(text, res, vars)
@@ -62,7 +62,7 @@ func Info(err error, text string, vars ...any) {
 }
 
 func Debug(err error, text string, vars ...any) {
-	logErr(err)
+	logErr(LOG_DEBUG, err)
 	res := readTextVars(text)
 	resErr(res, vars)
 	text = createTextOutput(text, res, vars)
@@ -76,7 +76,7 @@ func Debug(err error, text string, vars ...any) {
 }
 
 func Warning(err error, text string, vars ...any) {
-	logErr(err)
+	logErr(LOG_WARNING, err)
 	res := readTextVars(text)
 	resErr(res, vars)
 	text = createTextOutput(text, res, vars)
@@ -90,7 +90,7 @@ func Warning(err error, text string, vars ...any) {
 }
 
 func Error(err error, text string, vars ...any) {
-	logErr(err)
+	logErr(LOG_ERROR, err)
 	res := readTextVars(text)
 	resErr(res, vars)
 	text = createTextOutput(text, res, vars)
@@ -104,7 +104,7 @@ func Error(err error, text string, vars ...any) {
 }
 
 func Fatal(err error, text string, vars ...any) {
-	logErr(err)
+	logErr(LOG_FATAL, err)
 	res := readTextVars(text)
 	resErr(res, vars)
 	text = createTextOutput(text, res, vars)
@@ -117,10 +117,30 @@ func Fatal(err error, text string, vars ...any) {
 	logToLogFiles(LOG_FATAL, ts+"FATAL: "+text+"\n")
 }
 
-func logErr(err error) {
-	if err != nil {
-		fmt.Println(err)
+func logErr(lt LoggingType, err error) {
+	if err == nil {
+		return
 	}
+	ts := getTimeString()
+	switch lt {
+	case LOG_INFO:
+		fmt.Print(color_info + ts + "INFO:")
+		break
+	case LOG_DEBUG:
+		fmt.Print(color_debug + ts + "DEBUG:")
+		break
+	case LOG_WARNING:
+		fmt.Print(color_warning + ts + "WARNING:")
+		break
+	case LOG_ERROR:
+		fmt.Print(color_error + ts + "ERROR:")
+		break
+	case LOG_FATAL:
+		fmt.Print(color_fatal + ts + "FATAL:")
+		break
+	}
+	fmt.Print(err)
+	fmt.Print(color_reset, "\n")
 }
 
 func resErr(res []varInfo, vars []any) {

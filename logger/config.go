@@ -13,6 +13,7 @@ type config struct {
 	showFatal           bool
 	printDatesInConsole bool
 	logPaths            []string
+	fileLoggingAsync    bool
 }
 
 var Config config = config{
@@ -23,6 +24,7 @@ var Config config = config{
 	showFatal:           true,
 	printDatesInConsole: true,
 	logPaths:            []string{},
+	fileLoggingAsync:    true,
 }
 
 func (c *config) ShowInfo(show bool) {
@@ -56,6 +58,10 @@ func (c *config) AddFileLogging(path string) {
 		return
 	}
 	c.logPaths = append(c.logPaths, path)
+}
+
+func (c *config) AsyncFileLogging(async bool) {
+	c.fileLoggingAsync = async
 }
 
 func isDirectory(path string) (bool, error) {

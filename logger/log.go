@@ -27,21 +27,29 @@ func getTimeString() string {
 	return ts
 }
 
-func logToLogFiles(lt LoggingType, text string) {
-	for _, v := range Config.logPaths {
-		file := strings.TrimSuffix(v, "/")
-		file += "/all.log"
+func fileLogger(lt LoggingType, text string) {
+	if Config.fileLoggingAsync {
+		go logToFiles(lt, text)
+	} else {
+		logToFiles(lt, text)
+	}
+}
 
-		f, err := os.OpenFile(file, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+func logToFiles(lt LoggingType, text string) {
+	for _, v := range Config.logPaths {
+		filePath := strings.TrimSuffix(v, "/")
+		filePath += "/all.log"
+
+		f, err := os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 		if err != nil {
-			fmt.Println("Can't write file", file)
+			fmt.Println("Can't write file", filePath)
 			continue
 		}
 		defer f.Close()
 
 		_, err = f.WriteString(text)
 		if err != nil {
-			fmt.Println("Error writing to file:", err)
+			fmt.Println(color_error+"ERROR writing to log file:", err)
 			continue
 		}
 	}
@@ -58,7 +66,7 @@ func Info(err error, text string, vars ...any) {
 		fmt.Println(color_info+ts+"INFO:", text+color_reset)
 	}
 
-	logToLogFiles(LOG_INFO, ts+"INFO: "+text+"\n")
+	fileLogger(LOG_INFO, ts+"INFO: "+text+"\n")
 }
 
 func Debug(err error, text string, vars ...any) {
@@ -72,7 +80,7 @@ func Debug(err error, text string, vars ...any) {
 		fmt.Println(color_debug+ts+"DEBUG:", text+color_reset)
 	}
 
-	logToLogFiles(LOG_DEBUG, ts+"DEBUG: "+text+"\n")
+	fileLogger(LOG_DEBUG, ts+"DEBUG: "+text+"\n")
 }
 
 func Warning(err error, text string, vars ...any) {
@@ -86,7 +94,7 @@ func Warning(err error, text string, vars ...any) {
 		fmt.Println(color_warning+ts+"WARNING:", text+color_reset)
 	}
 
-	logToLogFiles(LOG_WARNING, ts+"WARNING: "+text+"\n")
+	fileLogger(LOG_WARNING, ts+"WARNING: "+text+"\n")
 }
 
 func Error(err error, text string, vars ...any) {
@@ -100,7 +108,7 @@ func Error(err error, text string, vars ...any) {
 		fmt.Println(color_error+ts+"ERROR:", text+color_reset)
 	}
 
-	logToLogFiles(LOG_ERROR, ts+"ERROR: "+text+"\n")
+	fileLogger(LOG_ERROR, ts+"ERROR: "+text+"\n")
 }
 
 func Fatal(err error, text string, vars ...any) {
@@ -114,7 +122,7 @@ func Fatal(err error, text string, vars ...any) {
 		fmt.Println(color_fatal+ts+"FATAL:", text+color_reset)
 	}
 
-	logToLogFiles(LOG_FATAL, ts+"FATAL: "+text+"\n")
+	fileLogger(LOG_FATAL, ts+"FATAL: "+text+"\n")
 }
 
 func logErr(lt LoggingType, err error) {

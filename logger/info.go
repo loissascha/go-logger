@@ -124,19 +124,19 @@ func logErr(lt LoggingType, err error) {
 	ts := getTimeString()
 	switch lt {
 	case LOG_INFO:
-		fmt.Print(color_info + ts + "INFO:")
+		fmt.Print(color_info + ts + "INFO(err): ")
 		break
 	case LOG_DEBUG:
-		fmt.Print(color_debug + ts + "DEBUG:")
+		fmt.Print(color_debug + ts + "DEBUG(err): ")
 		break
 	case LOG_WARNING:
-		fmt.Print(color_warning + ts + "WARNING:")
+		fmt.Print(color_warning + ts + "WARNING(err): ")
 		break
 	case LOG_ERROR:
-		fmt.Print(color_error + ts + "ERROR:")
+		fmt.Print(color_error + ts + "ERROR(err): ")
 		break
 	case LOG_FATAL:
-		fmt.Print(color_fatal + ts + "FATAL:")
+		fmt.Print(color_fatal + ts + "FATAL(err): ")
 		break
 	}
 	fmt.Print(err)

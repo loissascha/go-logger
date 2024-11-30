@@ -83,6 +83,9 @@ func logToFiles(text string) {
 }
 
 func Info(err error, text string, vars ...any) {
+	// TODO: this replaces the old stuff!
+	logger_info.Log(err, text, vars)
+
 	logErr(LOG_INFO, err)
 	res := readTextVars(text)
 	resErr(res, vars)

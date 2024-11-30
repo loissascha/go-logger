@@ -9,6 +9,13 @@ type Logger struct {
 	showInConsole bool
 }
 
+var logger_info = Logger{
+	prefix:        "INFO",
+	color:         "\033[34m",
+	logToFile:     true,
+	showInConsole: true,
+}
+
 func NewLogger(prefix string, color string, logToFile bool) *Logger {
 	r := Logger{
 		prefix:        prefix,

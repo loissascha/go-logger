@@ -21,4 +21,7 @@ func main() {
 	logger.Warning(someerr, "This is a warning!")
 	logger.Error(nil, "This is an error!")
 	logger.Fatal(nil, "This is a fatal!")
+
+	customLogger := logger.NewLogger("CUSTOM", "", true)
+	customLogger.Log(nil, "Some custom log text!")
 }

@@ -24,4 +24,5 @@ func main() {
 
 	customLogger := logger.NewLogger("CUSTOM", "", true)
 	customLogger.Log(nil, "Some custom log text!")
+	customLogger.Log(nil, "Some {var} with var", "text")
 }

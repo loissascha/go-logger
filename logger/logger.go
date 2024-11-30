@@ -1,15 +1,15 @@
 package logger
 
 type Logger struct {
-	name          string
+	prefix          string
 	color         string
 	logToFile     bool
 	showInConsole bool
 }
 
-func NewLogger(name string, color string, logToFile bool) *Logger {
+func NewLogger(prefix string, color string, logToFile bool) *Logger {
 	r := Logger{
-		name:          name,
+		prefix:          prefix,
 		color:         color,
 		logToFile:     logToFile,
 		showInConsole: true,
